@@ -10,6 +10,10 @@ function useScrollReveal() {
     const observerRef = useRef<IntersectionObserver | null>(null)
 
     useEffect(() => {
+        // Force scroll to top on mount/refresh
+        window.history.scrollRestoration = 'manual'
+        window.scrollTo(0, 0)
+
         observerRef.current = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
@@ -27,7 +31,10 @@ function useScrollReveal() {
             observerRef.current?.observe(el)
         })
 
-        return () => observerRef.current?.disconnect()
+        return () => {
+            observerRef.current?.disconnect()
+            window.history.scrollRestoration = 'auto'
+        }
     }, [])
 }
 
@@ -36,8 +43,8 @@ export default function LandingPageClient() {
 
     return (
         <div className="min-h-screen flex flex-col">
-            {/* Navigation */}
-            <nav className="p-4 md:p-6 animate-fade-in">
+            {/* Navigation - No fade-in animation */}
+            <nav className="p-4 md:p-6 opacity-100">
                 <div className="container mx-auto flex items-center justify-between">
                     <div className="flex items-center gap-2 group cursor-pointer">
                         <img src="https://www.codeninjas.com/hubfs/Group%201.svg" alt="Logo" className="h-8 md:h-10 w-auto transition-transform duration-500 group-hover:rotate-12" />
@@ -54,31 +61,31 @@ export default function LandingPageClient() {
                 </div>
             </nav>
 
-            {/* Hero - Loads immediately */}
+            {/* Hero - Top section is visible immediately */}
             <div className="flex-1 flex flex-col items-center justify-center text-center px-4 py-6 md:p-8">
                 <div className="max-w-4xl mx-auto space-y-4 md:space-y-8">
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-white/10 text-white border border-white/20 backdrop-blur-md text-xs md:text-sm font-semibold animate-fade-in" style={{ animationDelay: '0.1s' }}>
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-white/10 text-white border border-white/20 backdrop-blur-md text-xs md:text-sm font-semibold">
                         <span className="flex h-2 w-2 rounded-full bg-green-400 animate-pulse"></span>
                         Now available for all South Florida Dojos
                     </div>
 
-                    <h1 className="text-4xl md:text-7xl font-black text-white tracking-tight drop-shadow-sm leading-tight animate-slide-up" style={{ animationDelay: '0.2s' }}>
+                    <h1 className="text-4xl md:text-7xl font-black text-white tracking-tight drop-shadow-sm leading-tight">
                         Track Every <br className="hidden md:block" />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-400">Ninja's Journey.</span>
                     </h1>
 
-                    <p className="text-base md:text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed animate-fade-in" style={{ animationDelay: '0.4s' }}>
+                    <p className="text-base md:text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
                         The official parent portal for Code Ninjas FL. Stay connected with your ninja's progress at Cooper City, Weston, or Aventura.
                     </p>
 
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2 md:pt-4 animate-fade-in" style={{ animationDelay: '0.6s' }}>
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2 md:pt-4">
                         <Link href="/signup" className="w-full sm:w-auto px-8 py-4 md:px-10 md:py-5 rounded-2xl bg-white text-[var(--brand)] font-black text-base md:text-lg shadow-2xl hover:shadow-white/20 hover:scale-105 active:scale-95 transition-all">
                             Get Started Now
                         </Link>
                     </div>
 
                     {/* Scroll indicator */}
-                    <div className="pt-4 md:pt-12 animate-fade-in" style={{ animationDelay: '0.8s' }}>
+                    <div className="pt-4 md:pt-12">
                         <a href="#features" className="inline-flex flex-col items-center gap-1 md:gap-2 text-white/60 hover:text-white transition-colors group">
                             <span className="text-[10px] md:text-xs font-semibold uppercase tracking-widest">Scroll to learn more</span>
                             <LucideChevronDown className="h-4 w-4 md:h-5 md:w-5 animate-bounce" />
@@ -254,7 +261,7 @@ export default function LandingPageClient() {
                 </div>
             </div>
 
-            {/* Footer */}
+            {/* Footer - No fade-in or scroll effects */}
             <footer className="bg-gray-50 border-t border-gray-200 py-12">
                 <div className="container mx-auto px-6">
                     <div className="flex flex-col md:flex-row items-center justify-between gap-6">

@@ -29,12 +29,12 @@ export default async function DashboardLayout({
         console.error('[DASHBOARD_LAYOUT] Profile fetch error:', profileError.message, profileError.code)
     }
 
-    const role = profile?.role || 'parent'
+    const role = profile?.role || user.user_metadata?.role || 'parent'
 
     const userProfile = {
-        full_name: profile?.full_name || user.user_metadata?.full_name || null,
+        full_name: profile?.full_name || user.user_metadata?.full_name || user.email?.split('@')[0] || 'User',
         email: profile?.email || user.email || null,
-        initial: (profile?.full_name?.[0] || user.email?.[0] || '?').toUpperCase()
+        initial: (profile?.full_name?.[0] || user.user_metadata?.full_name?.[0] || user.email?.[0] || '?').toUpperCase()
     }
 
     return (

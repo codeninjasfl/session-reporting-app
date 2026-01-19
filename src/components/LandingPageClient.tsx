@@ -51,12 +51,24 @@ function AnimateOnScroll({
 }
 
 export default function LandingPageClient() {
-    // Prevent scroll restoration
+    const [scrollOpacity, setScrollOpacity] = useState(1)
+
+    // Handle scroll-based fades and prevent scroll restoration
     useEffect(() => {
         if ('scrollRestoration' in window.history) {
             window.history.scrollRestoration = 'manual'
         }
         window.scrollTo(0, 0)
+
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY
+            // Fade out the scroll indicator over the first 100px of scroll
+            const newOpacity = Math.max(0, 1 - currentScrollY / 100)
+            setScrollOpacity(newOpacity)
+        }
+
+        window.addEventListener('scroll', handleScroll, { passive: true })
+        return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
     return (
@@ -114,7 +126,13 @@ export default function LandingPageClient() {
 
                     {/* Scroll indicator */}
                     <AnimateOnScroll delay={1200}>
-                        <div className="pt-12">
+                        <div
+                            className="pt-12 transition-opacity duration-300"
+                            style={{
+                                opacity: scrollOpacity,
+                                pointerEvents: scrollOpacity === 0 ? 'none' : 'auto'
+                            }}
+                        >
                             <a href="#features" className="inline-flex flex-col items-center gap-2 text-white/60 hover:text-white transition-colors group">
                                 <span className="text-xs font-semibold uppercase tracking-widest">Scroll to learn more</span>
                                 <LucideChevronDown className="h-5 w-5 animate-bounce" />

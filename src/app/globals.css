@@ -167,17 +167,25 @@ body {
   transform: translateY(0);
 }
 
-/* Stagger delays */
-.delay-75 {
-  animation-delay: 75ms;
+/* Transition delays for scroll-reveal stagger */
+.reveal-delay-100 {
+  transition-delay: 100ms;
 }
 
-.delay-100 {
-  animation-delay: 100ms;
+.reveal-delay-200 {
+  transition-delay: 200ms;
 }
 
-.delay-150 {
-  animation-delay: 150ms;
+.reveal-delay-300 {
+  transition-delay: 300ms;
+}
+
+.reveal-delay-400 {
+  transition-delay: 400ms;
+}
+
+.reveal-delay-500 {
+  transition-delay: 500ms;
 }
 
 .delay-200 {

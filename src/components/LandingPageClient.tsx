@@ -87,9 +87,9 @@ export default function LandingPageClient() {
                 </div>
             </div>
 
-            {/* Features Grid - Scroll reveal */}
-            <div id="features" className="bg-white py-24 scroll-mt-8 scroll-reveal">
-                <div className="container mx-auto px-6">
+            {/* Features Grid */}
+            <div id="features" className="bg-white py-24 scroll-mt-8">
+                <div className="container mx-auto px-6 scroll-reveal">
                     <div className="text-center mb-16">
                         <span className="inline-block px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-bold uppercase tracking-wider mb-4 hover:scale-105 transition-transform cursor-default">Why Parents Love Us</span>
                         <h2 className="text-4xl md:text-5xl font-black text-[var(--ink)] tracking-tight">Stay Connected to Their Progress</h2>
@@ -131,9 +131,9 @@ export default function LandingPageClient() {
                 </div>
             </div>
 
-            {/* How It Works - Scroll reveal */}
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-100 py-24 scroll-reveal">
-                <div className="container mx-auto px-6">
+            {/* How It Works */}
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-100 py-24">
+                <div className="container mx-auto px-6 scroll-reveal">
                     <div className="text-center mb-16">
                         <span className="inline-block px-4 py-2 rounded-full bg-white text-blue-700 text-sm font-bold uppercase tracking-wider mb-4 shadow-sm">Simple Setup</span>
                         <h2 className="text-4xl md:text-5xl font-black text-[var(--ink)] tracking-tight">How It Works</h2>
@@ -157,9 +157,9 @@ export default function LandingPageClient() {
                 </div>
             </div>
 
-            {/* Locations - Scroll reveal */}
-            <div className="bg-gradient-to-br from-gray-50 to-gray-100 py-24 scroll-reveal">
-                <div className="container mx-auto px-6">
+            {/* Locations */}
+            <div className="bg-gradient-to-br from-gray-50 to-gray-100 py-24">
+                <div className="container mx-auto px-6 scroll-reveal">
                     <div className="text-center mb-16">
                         <span className="inline-block px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-bold uppercase tracking-wider mb-4">Our Dojos</span>
                         <h2 className="text-4xl md:text-5xl font-black text-[var(--ink)] tracking-tight">3 South Florida Locations</h2>
@@ -192,9 +192,9 @@ export default function LandingPageClient() {
                 </div>
             </div>
 
-            {/* Belt System Preview - Scroll reveal */}
-            <div className="bg-white py-24 scroll-reveal">
-                <div className="container mx-auto px-6">
+            {/* Belt System Preview */}
+            <div className="bg-white py-24">
+                <div className="container mx-auto px-6 scroll-reveal">
                     <div className="text-center mb-16">
                         <span className="inline-block px-4 py-2 rounded-full bg-yellow-100 text-yellow-700 text-sm font-bold uppercase tracking-wider mb-4 hover:scale-105 transition-transform cursor-default">The Journey</span>
                         <h2 className="text-4xl md:text-5xl font-black text-[var(--ink)] tracking-tight">9 Belts to Master</h2>
@@ -221,9 +221,9 @@ export default function LandingPageClient() {
                 </div>
             </div>
 
-            {/* Testimonial / Quote - Scroll reveal */}
-            <div className="bg-gradient-to-br from-blue-600 to-indigo-700 py-24 overflow-hidden scroll-reveal">
-                <div className="container mx-auto px-6 text-center">
+            {/* Testimonial / Quote */}
+            <div className="bg-gradient-to-br from-blue-600 to-indigo-700 py-24 overflow-hidden">
+                <div className="container mx-auto px-6 text-center scroll-reveal">
                     <div className="max-w-3xl mx-auto">
                         <LucideQuote className="h-12 w-12 text-white/30 mx-auto mb-8" />
                         <blockquote className="text-2xl md:text-3xl text-white font-medium leading-relaxed mb-8">
@@ -236,9 +236,9 @@ export default function LandingPageClient() {
                 </div>
             </div>
 
-            {/* Final CTA - Scroll reveal */}
-            <div className="bg-white py-24 scroll-reveal">
-                <div className="container mx-auto px-6 text-center">
+            {/* Final CTA */}
+            <div className="bg-white py-24">
+                <div className="container mx-auto px-6 text-center scroll-reveal">
                     <h2 className="text-4xl md:text-5xl font-black text-[var(--ink)] tracking-tight mb-6">Ready to Get Started?</h2>
                     <p className="text-[var(--muted)] text-lg max-w-2xl mx-auto mb-10">
                         Join hundreds of parents who stay connected to their ninja's coding journey. It only takes 30 seconds to sign up.

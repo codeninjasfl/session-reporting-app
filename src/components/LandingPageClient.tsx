@@ -89,14 +89,14 @@ export default function LandingPageClient() {
 
             {/* Features Grid */}
             <div id="features" className="bg-white py-24 scroll-mt-8">
-                <div className="container mx-auto px-6 scroll-reveal">
+                <div className="container mx-auto px-6">
                     <div className="text-center mb-16">
-                        <span className="inline-block px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-bold uppercase tracking-wider mb-4 hover:scale-105 transition-transform cursor-default">Why Parents Love Us</span>
-                        <h2 className="text-4xl md:text-5xl font-black text-[var(--ink)] tracking-tight">Stay Connected to Their Progress</h2>
+                        <span className="inline-block px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-bold uppercase tracking-wider mb-4 hover:scale-105 transition-transform cursor-default scroll-reveal">Why Parents Love Us</span>
+                        <h2 className="text-4xl md:text-5xl font-black text-[var(--ink)] tracking-tight scroll-reveal">Stay Connected to Their Progress</h2>
                     </div>
                     <div className="grid md:grid-cols-3 gap-8">
                         {/* Feature 1 */}
-                        <div className="p-8 rounded-[30px] bg-gray-50 border border-gray-100 hover:border-blue-200 hover:-translate-y-2 transition-all duration-300 group h-full">
+                        <div className="p-8 rounded-[30px] bg-gray-50 border border-gray-100 hover:border-blue-200 hover:-translate-y-2 transition-all duration-300 group h-full scroll-reveal">
                             <div className="h-14 w-14 rounded-2xl bg-blue-100 text-[var(--brand)] flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
                                 <LucideLayoutDashboard className="h-7 w-7" />
                             </div>
@@ -107,7 +107,7 @@ export default function LandingPageClient() {
                         </div>
 
                         {/* Feature 2 */}
-                        <div className="p-8 rounded-[30px] bg-gray-50 border border-gray-100 hover:border-blue-200 hover:-translate-y-2 transition-all duration-300 group h-full">
+                        <div className="p-8 rounded-[30px] bg-gray-50 border border-gray-100 hover:border-blue-200 hover:-translate-y-2 transition-all duration-300 group h-full scroll-reveal">
                             <div className="h-14 w-14 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
                                 <LucideTrophy className="h-7 w-7" />
                             </div>
@@ -118,7 +118,7 @@ export default function LandingPageClient() {
                         </div>
 
                         {/* Feature 3 */}
-                        <div className="p-8 rounded-[30px] bg-gray-50 border border-gray-100 hover:border-blue-200 hover:-translate-y-2 transition-all duration-300 group h-full">
+                        <div className="p-8 rounded-[30px] bg-gray-50 border border-gray-100 hover:border-blue-200 hover:-translate-y-2 transition-all duration-300 group h-full scroll-reveal">
                             <div className="h-14 w-14 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
                                 <LucideUsers className="h-7 w-7" />
                             </div>
@@ -133,10 +133,10 @@ export default function LandingPageClient() {
 
             {/* How It Works */}
             <div className="bg-gradient-to-br from-blue-50 to-indigo-100 py-24">
-                <div className="container mx-auto px-6 scroll-reveal">
+                <div className="container mx-auto px-6">
                     <div className="text-center mb-16">
-                        <span className="inline-block px-4 py-2 rounded-full bg-white text-blue-700 text-sm font-bold uppercase tracking-wider mb-4 shadow-sm">Simple Setup</span>
-                        <h2 className="text-4xl md:text-5xl font-black text-[var(--ink)] tracking-tight">How It Works</h2>
+                        <span className="inline-block px-4 py-2 rounded-full bg-white text-blue-700 text-sm font-bold uppercase tracking-wider mb-4 shadow-sm scroll-reveal">Simple Setup</span>
+                        <h2 className="text-4xl md:text-5xl font-black text-[var(--ink)] tracking-tight scroll-reveal">How It Works</h2>
                     </div>
                     <div className="grid md:grid-cols-4 gap-8">
                         {[
@@ -145,7 +145,7 @@ export default function LandingPageClient() {
                             { step: '3', title: 'Get Reports', desc: 'Receive session cards after every visit' },
                             { step: '4', title: 'Track Progress', desc: 'Watch them advance through the belt system' },
                         ].map((item, i) => (
-                            <div key={i} className="text-center group">
+                            <div key={i} className="text-center group scroll-reveal">
                                 <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 text-white text-2xl font-black flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                                     {item.step}
                                 </div>
@@ -159,11 +159,11 @@ export default function LandingPageClient() {
 
             {/* Locations */}
             <div className="bg-gradient-to-br from-gray-50 to-gray-100 py-24">
-                <div className="container mx-auto px-6 scroll-reveal">
+                <div className="container mx-auto px-6">
                     <div className="text-center mb-16">
-                        <span className="inline-block px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-bold uppercase tracking-wider mb-4">Our Dojos</span>
-                        <h2 className="text-4xl md:text-5xl font-black text-[var(--ink)] tracking-tight">3 South Florida Locations</h2>
-                        <p className="text-[var(--muted)] text-lg mt-4 max-w-2xl mx-auto">Find the Code Ninjas dojo nearest to you. Each location offers the same amazing curriculum and dedicated Senseis.</p>
+                        <span className="inline-block px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-bold uppercase tracking-wider mb-4 scroll-reveal">Our Dojos</span>
+                        <h2 className="text-4xl md:text-5xl font-black text-[var(--ink)] tracking-tight scroll-reveal">3 South Florida Locations</h2>
+                        <p className="text-[var(--muted)] text-lg mt-4 max-w-2xl mx-auto scroll-reveal">Find the Code Ninjas dojo nearest to you. Each location offers the same amazing curriculum and dedicated Senseis.</p>
                     </div>
                     <div className="grid md:grid-cols-3 gap-8">
                         {[
@@ -171,7 +171,7 @@ export default function LandingPageClient() {
                             { name: 'Weston', address: '1374 SW 160th Ave, Suite E-3/E-4', city: 'Weston, FL 33326', phone: '(954) 727-8797', color: 'from-indigo-500 to-indigo-700' },
                             { name: 'Aventura', address: '18999 Biscayne Blvd, Suite 200', city: 'Aventura, FL 33180', phone: '(786) 592-6300', color: 'from-purple-500 to-purple-700' },
                         ].map((loc, i) => (
-                            <div key={i} className="bg-white rounded-[30px] overflow-hidden shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group h-full">
+                            <div key={i} className="bg-white rounded-[30px] overflow-hidden shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group h-full scroll-reveal">
                                 <div className={`h-3 bg-gradient-to-r ${loc.color} group-hover:h-4 transition-all duration-300`} />
                                 <div className="p-8">
                                     <h3 className="text-2xl font-black text-[var(--ink)] mb-4">{loc.name}</h3>
@@ -194,13 +194,13 @@ export default function LandingPageClient() {
 
             {/* Belt System Preview */}
             <div className="bg-white py-24">
-                <div className="container mx-auto px-6 scroll-reveal">
+                <div className="container mx-auto px-6">
                     <div className="text-center mb-16">
-                        <span className="inline-block px-4 py-2 rounded-full bg-yellow-100 text-yellow-700 text-sm font-bold uppercase tracking-wider mb-4 hover:scale-105 transition-transform cursor-default">The Journey</span>
-                        <h2 className="text-4xl md:text-5xl font-black text-[var(--ink)] tracking-tight">9 Belts to Master</h2>
-                        <p className="text-[var(--muted)] text-lg mt-4 max-w-2xl mx-auto">From White Belt beginner to Black Belt master, every ninja has an exciting path ahead.</p>
+                        <span className="inline-block px-4 py-2 rounded-full bg-yellow-100 text-yellow-700 text-sm font-bold uppercase tracking-wider mb-4 hover:scale-105 transition-transform cursor-default scroll-reveal">The Journey</span>
+                        <h2 className="text-4xl md:text-5xl font-black text-[var(--ink)] tracking-tight scroll-reveal">9 Belts to Master</h2>
+                        <p className="text-[var(--muted)] text-lg mt-4 max-w-2xl mx-auto scroll-reveal">From White Belt beginner to Black Belt master, every ninja has an exciting path ahead.</p>
                     </div>
-                    <div className="flex flex-wrap justify-center gap-3 md:gap-4">
+                    <div className="flex flex-wrap justify-center gap-3 md:gap-4 scroll-reveal">
                         {[
                             { name: 'White', color: 'bg-gray-100 border-gray-300' },
                             { name: 'Yellow', color: 'bg-yellow-300 border-yellow-500' },
@@ -223,8 +223,8 @@ export default function LandingPageClient() {
 
             {/* Testimonial / Quote */}
             <div className="bg-gradient-to-br from-blue-600 to-indigo-700 py-24 overflow-hidden">
-                <div className="container mx-auto px-6 text-center scroll-reveal">
-                    <div className="max-w-3xl mx-auto">
+                <div className="container mx-auto px-6 text-center">
+                    <div className="max-w-3xl mx-auto scroll-reveal">
                         <LucideQuote className="h-12 w-12 text-white/30 mx-auto mb-8" />
                         <blockquote className="text-2xl md:text-3xl text-white font-medium leading-relaxed mb-8">
                             "My son absolutely loves coming to Code Ninjas. The session reports let me see exactly what he's learning, and I can actually have conversations with him about his projects!"
@@ -238,12 +238,12 @@ export default function LandingPageClient() {
 
             {/* Final CTA */}
             <div className="bg-white py-24">
-                <div className="container mx-auto px-6 text-center scroll-reveal">
-                    <h2 className="text-4xl md:text-5xl font-black text-[var(--ink)] tracking-tight mb-6">Ready to Get Started?</h2>
-                    <p className="text-[var(--muted)] text-lg max-w-2xl mx-auto mb-10">
+                <div className="container mx-auto px-6 text-center">
+                    <h2 className="text-4xl md:text-5xl font-black text-[var(--ink)] tracking-tight mb-6 scroll-reveal">Ready to Get Started?</h2>
+                    <p className="text-[var(--muted)] text-lg max-w-2xl mx-auto mb-10 scroll-reveal">
                         Join hundreds of parents who stay connected to their ninja's coding journey. It only takes 30 seconds to sign up.
                     </p>
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 scroll-reveal">
                         <Link href="/signup" className="px-10 py-5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-black text-lg shadow-xl hover:shadow-2xl hover:scale-105 hover:-translate-y-1 transition-all duration-300">
                             Create Free Account
                         </Link>

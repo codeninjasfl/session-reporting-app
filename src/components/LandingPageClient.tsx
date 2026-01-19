@@ -230,9 +230,9 @@ export default function LandingPageClient() {
                     </AnimateOnScroll>
                     <div className="grid md:grid-cols-3 gap-8">
                         {[
-                            { name: 'Cooper City', address: '5849 S Flamingo Rd', city: 'Cooper City, FL 33330', phone: '(954) 874-8838', color: 'from-blue-500 to-blue-700' },
-                            { name: 'Weston', address: '4529 Weston Rd', city: 'Weston, FL 33331', phone: '(954) 505-7072', color: 'from-indigo-500 to-indigo-700' },
-                            { name: 'Aventura', address: '21035 Biscayne Blvd', city: 'Aventura, FL 33180', phone: '(305) 705-3016', color: 'from-purple-500 to-purple-700' },
+                            { name: 'Cooper City', address: '5534 S Flamingo Rd', city: 'Cooper City, FL 33330', phone: '(954) 323-4555', color: 'from-blue-500 to-blue-700' },
+                            { name: 'Weston', address: '1374 SW 160th Ave, Suite E-3/E-4', city: 'Weston, FL 33326', phone: '(954) 727-8797', color: 'from-indigo-500 to-indigo-700' },
+                            { name: 'Aventura', address: '18999 Biscayne Blvd, Suite 200', city: 'Aventura, FL 33180', phone: '(786) 592-6300', color: 'from-purple-500 to-purple-700' },
                         ].map((loc, i) => (
                             <AnimateOnScroll key={i} delay={i * 150}>
                                 <div className="bg-white rounded-[30px] overflow-hidden shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group h-full">

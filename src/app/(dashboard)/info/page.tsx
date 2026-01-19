@@ -58,28 +58,28 @@ export default async function DojoInfoPage() {
 
     const dojos: Record<string, { address: string, city: string, zip: string, phone: string, hours: string, mapUrl: string }> = {
         'Cooper City': {
-            address: '5849 S Flamingo Rd',
+            address: '5534 S Flamingo Rd',
             city: 'Cooper City, FL',
             zip: '33330',
-            phone: '(954) 874-8838',
+            phone: '(954) 323-4555',
             hours: 'Mon-Fri: 3pm-7pm, Sat: 10am-3pm',
-            mapUrl: 'https://maps.google.com/?q=5849+S+Flamingo+Rd+Cooper+City+FL+33330'
+            mapUrl: 'https://maps.google.com/?q=5534+S+Flamingo+Rd+Cooper+City+FL+33330'
         },
         'Weston': {
-            address: '4529 Weston Rd',
+            address: '1374 SW 160th Ave, Suite E-3/E-4',
             city: 'Weston, FL',
-            zip: '33331',
-            phone: '(954) 505-7072',
+            zip: '33326',
+            phone: '(954) 727-8797',
             hours: 'Mon-Fri: 3pm-7pm, Sat: 10am-2pm',
-            mapUrl: 'https://maps.google.com/?q=4529+Weston+Rd+Weston+FL+33331'
+            mapUrl: 'https://maps.google.com/?q=1374+SW+160th+Ave+Suite+E3+Weston+FL+33326'
         },
         'Aventura': {
-            address: '21035 Biscayne Blvd',
+            address: '18999 Biscayne Blvd, Suite 200',
             city: 'Aventura, FL',
             zip: '33180',
-            phone: '(305) 705-3016',
+            phone: '(786) 592-6300',
             hours: 'Mon-Fri: 3pm-7pm, Sat: 10am-2pm',
-            mapUrl: 'https://maps.google.com/?q=21035+Biscayne+Blvd+Aventura+FL+33180'
+            mapUrl: 'https://maps.google.com/?q=18999+Biscayne+Blvd+Suite+200+Aventura+FL+33180'
         }
     }
 

@@ -7,17 +7,17 @@ export default function LandingPageClient() {
     return (
         <div className="min-h-screen flex flex-col">
             {/* Navigation */}
-            <nav className="p-6 animate-fade-in">
+            <nav className="p-4 md:p-6 animate-fade-in">
                 <div className="container mx-auto flex items-center justify-between">
                     <div className="flex items-center gap-2 group cursor-pointer">
                         <img src="https://www.codeninjas.com/hubfs/Group%201.svg" alt="Logo" className="h-8 md:h-10 w-auto transition-transform duration-500 group-hover:rotate-12" />
                         <span className="hidden md:block font-black text-xl text-white uppercase tracking-tighter">Dojo Hub</span>
                     </div>
-                    <div className="flex gap-4">
-                        <Link href="/login" className="px-5 py-2.5 rounded-xl bg-white/10 text-white font-bold hover:bg-white/20 transition-all backdrop-blur-sm hover:scale-105 active:scale-95">
+                    <div className="flex gap-2 md:gap-4">
+                        <Link href="/login" className="px-3 py-2 md:px-5 md:py-2.5 rounded-xl bg-white/10 text-white text-sm md:text-base font-bold hover:bg-white/20 transition-all backdrop-blur-sm hover:scale-105 active:scale-95">
                             Log In
                         </Link>
-                        <Link href="/signup" className="px-5 py-2.5 rounded-xl bg-[var(--brand)] text-white font-bold shadow-lg shadow-blue-600/30 hover:shadow-xl hover:scale-105 active:scale-95 transition-all">
+                        <Link href="/signup" className="px-3 py-2 md:px-5 md:py-2.5 rounded-xl bg-[var(--brand)] text-white text-sm md:text-base font-bold shadow-lg shadow-blue-600/30 hover:shadow-xl hover:scale-105 active:scale-95 transition-all">
                             Get Started
                         </Link>
                     </div>
@@ -25,33 +25,33 @@ export default function LandingPageClient() {
             </nav>
 
             {/* Hero - Full viewport height so users must scroll to see more */}
-            <div className="min-h-[calc(100vh-80px)] flex flex-col items-center justify-center text-center p-8 pb-8">
-                <div className="max-w-4xl mx-auto space-y-8">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white border border-white/20 backdrop-blur-md text-sm font-semibold animate-fade-in" style={{ animationDelay: '0.1s' }}>
+            <div className="flex-1 flex flex-col items-center justify-center text-center px-4 py-6 md:p-8">
+                <div className="max-w-4xl mx-auto space-y-4 md:space-y-8">
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-white/10 text-white border border-white/20 backdrop-blur-md text-xs md:text-sm font-semibold animate-fade-in" style={{ animationDelay: '0.1s' }}>
                         <span className="flex h-2 w-2 rounded-full bg-green-400 animate-pulse"></span>
                         Now available for all South Florida Dojos
                     </div>
 
-                    <h1 className="text-5xl md:text-7xl font-black text-white tracking-tight drop-shadow-sm leading-tight animate-slide-up" style={{ animationDelay: '0.2s' }}>
+                    <h1 className="text-4xl md:text-7xl font-black text-white tracking-tight drop-shadow-sm leading-tight animate-slide-up" style={{ animationDelay: '0.2s' }}>
                         Track Every <br className="hidden md:block" />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-400">Ninja's Journey.</span>
                     </h1>
 
-                    <p className="text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed animate-fade-in" style={{ animationDelay: '0.4s' }}>
+                    <p className="text-base md:text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed animate-fade-in" style={{ animationDelay: '0.4s' }}>
                         The official parent portal for Code Ninjas FL. Stay connected with your ninja's progress at Cooper City, Weston, or Aventura.
                     </p>
 
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 animate-fade-in" style={{ animationDelay: '0.6s' }}>
-                        <Link href="/signup" className="w-full sm:w-auto px-10 py-5 rounded-2xl bg-white text-[var(--brand)] font-black text-lg shadow-2xl hover:shadow-white/20 hover:scale-105 active:scale-95 transition-all">
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2 md:pt-4 animate-fade-in" style={{ animationDelay: '0.6s' }}>
+                        <Link href="/signup" className="w-full sm:w-auto px-8 py-4 md:px-10 md:py-5 rounded-2xl bg-white text-[var(--brand)] font-black text-base md:text-lg shadow-2xl hover:shadow-white/20 hover:scale-105 active:scale-95 transition-all">
                             Get Started Now
                         </Link>
                     </div>
 
                     {/* Scroll indicator */}
-                    <div className="pt-12 animate-fade-in" style={{ animationDelay: '0.8s' }}>
-                        <a href="#features" className="inline-flex flex-col items-center gap-2 text-white/60 hover:text-white transition-colors group">
-                            <span className="text-xs font-semibold uppercase tracking-widest">Scroll to learn more</span>
-                            <LucideChevronDown className="h-5 w-5 animate-bounce" />
+                    <div className="pt-4 md:pt-12 animate-fade-in" style={{ animationDelay: '0.8s' }}>
+                        <a href="#features" className="inline-flex flex-col items-center gap-1 md:gap-2 text-white/60 hover:text-white transition-colors group">
+                            <span className="text-[10px] md:text-xs font-semibold uppercase tracking-widest">Scroll to learn more</span>
+                            <LucideChevronDown className="h-4 w-4 md:h-5 md:w-5 animate-bounce" />
                         </a>
                     </div>
                 </div>

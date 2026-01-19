@@ -522,118 +522,127 @@ textarea:focus {
   }
 }
 
-/* Animation - Ported from Path folder */
+/* Scroll-triggered animations */
+.animate-hidden,
+.animate-visible {
+  transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1), transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.animate-hidden {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.animate-hidden.fade-only {
+  transform: none;
+}
+
+.animate-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Glassmorphism utilities */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.glass-dark {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Ported animations from session-reporting-app */
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(20px);
   }
 
   to {
     opacity: 1;
-    transform: none;
+    transform: translateY(0);
   }
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 0.9;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
 
-  50% {
-    transform: scale(1.03);
+  to {
     opacity: 1;
-  }
-
-  100% {
-    transform: scale(1);
-    opacity: 0.9;
   }
 }
 
-@keyframes loadingText {
-  0% {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-
-  20% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  80% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateY(-3px);
-  }
+.animate-in {
+  animation: slideUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .fade-in {
-  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: fadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* Staggered animation delays for grid items */
-.fade-in:nth-child(1) {
-  animation-delay: 0s;
+/* Staggered delays */
+.delay-100 {
+  animation-delay: 100ms;
 }
 
-.fade-in:nth-child(2) {
-  animation-delay: 0.05s;
+.delay-200 {
+  animation-delay: 200ms;
 }
 
-.fade-in:nth-child(3) {
-  animation-delay: 0.1s;
+.delay-300 {
+  animation-delay: 300ms;
 }
 
-.fade-in:nth-child(4) {
-  animation-delay: 0.15s;
+.delay-400 {
+  animation-delay: 400ms;
 }
 
-.fade-in:nth-child(5) {
-  animation-delay: 0.2s;
-}
-
-.fade-in:nth-child(6) {
-  animation-delay: 0.25s;
-}
-
-.fade-in:nth-child(7) {
-  animation-delay: 0.3s;
-}
-
-.fade-in:nth-child(8) {
-  animation-delay: 0.35s;
-}
-
-.fade-in:nth-child(9) {
-  animation-delay: 0.4s;
+.delay-500 {
+  animation-delay: 500ms;
 }
 
 /* Enhanced hover transitions */
 .project-card {
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.25);
 }
 
 .btn {
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.filter-chip {
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Loading pulse animation */
-.loading-pulse {
-  animation: pulse 2s ease-in-out infinite;
-}
+/* Responsive fixes */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
 
-/* Filter chip with active state animation */
-.filter-chip.active {
-  animation: slideUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  .header nav {
+    justify-content: center;
+  }
+
+  .hero h1 {
+    font-size: 32px;
+  }
 }

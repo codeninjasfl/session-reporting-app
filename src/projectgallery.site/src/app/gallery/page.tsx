@@ -6,6 +6,7 @@ import Header from '@/components/Header';
 import ProjectCard from '@/components/ProjectCard';
 import { supabase } from '@/lib/supabase';
 import { Project, Belt, Location, BELT_OPTIONS, LOCATION_OPTIONS } from '@/lib/types';
+import { AnimateOnScroll } from '@/components/AnimateOnScroll';
 
 function GalleryContent() {
     const searchParams = useSearchParams();
@@ -83,73 +84,81 @@ function GalleryContent() {
     }, [selectedBelt, selectedLocation]);
 
     return (
-        <div className="fade-in">
-            <h1 style={{ color: '#fff', textAlign: 'center', marginBottom: '8px' }}>
-                Project Gallery
-            </h1>
-            <p style={{ color: 'rgba(255,255,255,0.8)', textAlign: 'center', marginBottom: '32px' }}>
-                Discover amazing games built by ninjas like you!
-            </p>
+        <div className="w-full">
+            <AnimateOnScroll delay={100}>
+                <h1 style={{ color: '#fff', textAlign: 'center', marginBottom: '8px' }}>
+                    Project Gallery
+                </h1>
+                <p style={{ color: 'rgba(255,255,255,0.8)', textAlign: 'center', marginBottom: '32px' }}>
+                    Discover amazing games built by ninjas like you!
+                </p>
+            </AnimateOnScroll>
 
             {/* Search */}
-            <form onSubmit={handleSearch} className="search-bar">
-                <input
-                    type="text"
-                    placeholder="Search by project name or ninja name..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                />
-                <button type="submit" className="btn primary">Search</button>
-            </form>
+            <AnimateOnScroll delay={200}>
+                <form onSubmit={handleSearch} className="search-bar">
+                    <input
+                        type="text"
+                        placeholder="Search by project name or ninja name..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                    <button type="submit" className="btn primary">Search</button>
+                </form>
+            </AnimateOnScroll>
 
             {/* Location Filters */}
-            <div style={{ marginBottom: '16px' }}>
-                <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '13px', marginBottom: '8px', fontWeight: 600 }}>
-                    📍 Location
-                </p>
-                <div className="filter-chips">
-                    <button
-                        className={`filter-chip ${selectedLocation === 'all' ? 'active' : ''}`}
-                        onClick={() => handleLocationFilter('all')}
-                    >
-                        All Locations
-                    </button>
-                    {LOCATION_OPTIONS.map((location) => (
+            <AnimateOnScroll delay={300}>
+                <div style={{ marginBottom: '16px' }}>
+                    <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '13px', marginBottom: '8px', fontWeight: 600 }}>
+                        📍 Location
+                    </p>
+                    <div className="filter-chips">
                         <button
-                            key={location}
-                            className={`filter-chip ${selectedLocation === location ? 'active' : ''}`}
-                            onClick={() => handleLocationFilter(location)}
+                            className={`filter-chip ${selectedLocation === 'all' ? 'active' : ''}`}
+                            onClick={() => handleLocationFilter('all')}
                         >
-                            {location}
+                            All Locations
                         </button>
-                    ))}
+                        {LOCATION_OPTIONS.map((location) => (
+                            <button
+                                key={location}
+                                className={`filter-chip ${selectedLocation === location ? 'active' : ''}`}
+                                onClick={() => handleLocationFilter(location)}
+                            >
+                                {location}
+                            </button>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            </AnimateOnScroll>
 
             {/* Belt Filters */}
-            <div style={{ marginBottom: '24px' }}>
-                <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '13px', marginBottom: '8px', fontWeight: 600 }}>
-                    🥋 Belt Level
-                </p>
-                <div className="filter-chips">
-                    <button
-                        className={`filter-chip ${selectedBelt === 'all' ? 'active' : ''}`}
-                        onClick={() => handleBeltFilter('all')}
-                    >
-                        All Belts
-                    </button>
-                    {BELT_OPTIONS.map((belt) => (
+            <AnimateOnScroll delay={400}>
+                <div style={{ marginBottom: '24px' }}>
+                    <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '13px', marginBottom: '8px', fontWeight: 600 }}>
+                        🥋 Belt Level
+                    </p>
+                    <div className="filter-chips">
                         <button
-                            key={belt}
-                            className={`filter-chip ${selectedBelt === belt ? 'active' : ''}`}
-                            onClick={() => handleBeltFilter(belt)}
-                            style={{ textTransform: 'capitalize' }}
+                            className={`filter-chip ${selectedBelt === 'all' ? 'active' : ''}`}
+                            onClick={() => handleBeltFilter('all')}
                         >
-                            {belt}
+                            All Belts
                         </button>
-                    ))}
+                        {BELT_OPTIONS.map((belt) => (
+                            <button
+                                key={belt}
+                                className={`filter-chip ${selectedBelt === belt ? 'active' : ''}`}
+                                onClick={() => handleBeltFilter(belt)}
+                                style={{ textTransform: 'capitalize' }}
+                            >
+                                {belt}
+                            </button>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            </AnimateOnScroll>
 
             {/* Results */}
             {loading ? (
@@ -160,21 +169,23 @@ function GalleryContent() {
                     </div>
                 </div>
             ) : projects.length === 0 ? (
-                <div className="card fade-in" style={{ textAlign: 'center', padding: '60px 20px' }}>
-                    <div style={{ fontSize: '48px', marginBottom: '16px' }}>🎮</div>
-                    <h3 style={{ marginBottom: '8px' }}>No projects found</h3>
-                    <p style={{ color: 'var(--muted)' }}>
-                        {search || selectedBelt !== 'all' || selectedLocation !== 'all'
-                            ? 'Try adjusting your filters'
-                            : 'Be the first to upload a project!'}
-                    </p>
-                </div>
+                <AnimateOnScroll delay={500}>
+                    <div className="card" style={{ textAlign: 'center', padding: '60px 20px' }}>
+                        <div style={{ fontSize: '48px', marginBottom: '16px' }}>🎮</div>
+                        <h3 style={{ marginBottom: '8px' }}>No projects found</h3>
+                        <p style={{ color: 'var(--muted)' }}>
+                            {search || selectedBelt !== 'all' || selectedLocation !== 'all'
+                                ? 'Try adjusting your filters'
+                                : 'Be the first to upload a project!'}
+                        </p>
+                    </div>
+                </AnimateOnScroll>
             ) : (
                 <div className="gallery-grid">
                     {projects.map((project, index) => (
-                        <div key={project.id} className="fade-in" style={{ animationDelay: `${index * 0.05}s` }}>
+                        <AnimateOnScroll key={project.id} delay={index * 50}>
                             <ProjectCard project={project} />
-                        </div>
+                        </AnimateOnScroll>
                     ))}
                 </div>
             )}
@@ -201,7 +212,9 @@ export default function GalleryPage() {
             </section>
 
             <footer className="footer">
-                <p>Made with ❤️ at Code Ninjas FL</p>
+                <AnimateOnScroll delay={200} bleed>
+                    <p>Made with ❤️ at Code Ninjas FL</p>
+                </AnimateOnScroll>
             </footer>
         </>
     );

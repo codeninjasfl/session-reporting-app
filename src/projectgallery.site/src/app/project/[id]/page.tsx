@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
@@ -9,6 +7,7 @@ import ReportModal from '@/components/ReportModal';
 import { supabase, getPublicUrl } from '@/lib/supabase';
 import { Project } from '@/lib/types';
 import { decodeMakeCodePng } from '@/lib/pxt-utils';
+import { AnimateOnScroll } from '@/components/AnimateOnScroll';
 
 export default function ProjectDetailPage() {
     const params = useParams();
@@ -35,8 +34,6 @@ export default function ProjectDetailPage() {
     const retryCountRef = useRef(0);
     const simulatorStartedRef = useRef(false);
     const maxRetries = 3;
-
-
 
     useEffect(() => {
         setIsMobile(/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
@@ -412,7 +409,7 @@ export default function ProjectDetailPage() {
             <>
                 <Header />
                 <div className="project-detail">
-                    <div className="card" style={{ textAlign: 'center', padding: '60px' }}>
+                    <div className="card glass-card" style={{ textAlign: 'center', padding: '60px' }}>
                         <div className="spinner" />
                         <p>Loading...</p>
                     </div>
@@ -426,7 +423,7 @@ export default function ProjectDetailPage() {
             <>
                 <Header />
                 <div className="project-detail">
-                    <div className="card" style={{ textAlign: 'center', padding: '60px' }}>
+                    <div className="card glass-card" style={{ textAlign: 'center', padding: '60px' }}>
                         <h2>Project Not Found</h2>
                         <Link href="/gallery" className="btn primary">Browse Gallery</Link>
                     </div>
@@ -442,180 +439,185 @@ export default function ProjectDetailPage() {
         <>
             <Header />
 
-            <div className="project-detail fade-in">
-
-                {/* 1. Header Info & Description */}
-                <div className="info" style={{ marginBottom: '32px' }}>
-                    <div className="title-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
-                        <div>
-                            <h1>{project.title}</h1>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '8px' }}>
-                                <BeltBadge belt={project.belt} />
+            <div className="project-detail w-full">
+                <AnimateOnScroll delay={100}>
+                    {/* 1. Header Info & Description */}
+                    <div className="info glass-card" style={{ marginBottom: '32px' }}>
+                        <div className="title-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
+                            <div>
+                                <h1>{project.title}</h1>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '8px' }}>
+                                    <BeltBadge belt={project.belt} />
+                                </div>
                             </div>
+
+                            <a
+                                href={imageUrl}
+                                download={`${project.title.replace(/\s+/g, '_')}_arcade.png`}
+                                className="btn"
+                                style={{ padding: '8px 16px', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}
+                            >
+                                <span>⬇️</span> Download Game File
+                            </a>
                         </div>
 
-                        <a
-                            href={imageUrl}
-                            download={`${project.title.replace(/\s+/g, '_')}_arcade.png`}
-                            className="btn"
-                            style={{ padding: '8px 16px', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '6px' }}
-                        >
-                            <span>⬇️</span> Download Game File
-                        </a>
-                    </div>
-
-                    <p className="creator">
-                        Created by <strong>{project.creator_name}</strong> at Code Ninjas <strong>{project.location}</strong>
-                    </p>
-
-                    {project.description && (
-                        <p className="description" style={{ fontSize: '1.1rem', lineHeight: '1.6', marginTop: '16px' }}>
-                            {project.description}
+                        <p className="creator">
+                            Created by <strong>{project.creator_name}</strong> at Code Ninjas <strong>{project.location}</strong>
                         </p>
-                    )}
-                </div>
+
+                        {project.description && (
+                            <p className="description" style={{ fontSize: '1.1rem', lineHeight: '1.6', marginTop: '16px' }}>
+                                {project.description}
+                            </p>
+                        )}
+                    </div>
+                </AnimateOnScroll>
 
                 {/* 2. Embedded Editor / Game */}
                 {project.status === 'ready' && !isMobile && (
-                    <div style={{ marginBottom: '32px' }}>
-                        <div
-                            ref={containerRef}
-                            style={{
-                                position: 'relative',
-                                // Aspect Ratio 4:3 for taller view
-                                width: '100%',
-                                aspectRatio: isFullscreen ? 'auto' : '4/3',
-                                height: isFullscreen ? '100vh' : 'auto',
-                                background: '#1e1e1e',
-                                borderRadius: isFullscreen ? '0' : '16px',
-                                overflow: 'hidden',
-                                // Fix border shorthand mix
-                                borderWidth: isFullscreen ? '0' : '2px',
-                                borderStyle: 'solid',
-                                borderColor: '#22c55e',
-                                boxShadow: isFullscreen ? 'none' : '0 20px 40px -10px rgba(0,0,0,0.5)'
-                            }}>
-
-                            {/* Loading Overlay */}
-                            {(!projectLoaded && !loadError) && (
-                                <div style={{
-                                    position: 'absolute',
-                                    zIndex: 10,
-                                    inset: 0,
-                                    background: '#1e1e1e', // Solid background to hide cached state
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                }}>
-                                    <div className="spinner" style={{ width: '40px', height: '40px', marginBottom: '16px' }} />
-                                    <p style={{ color: 'white', fontWeight: 600 }}>Loading Game...</p>
-                                    <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}>This may take a moment...</p>
-                                </div>
-                            )}
-
-                            {/* Error Overlay */}
-                            {loadError && (
-                                <div style={{
-                                    position: 'absolute',
-                                    zIndex: 10,
-                                    inset: 0,
+                    <AnimateOnScroll delay={200}>
+                        <div style={{ marginBottom: '32px' }}>
+                            <div
+                                ref={containerRef}
+                                style={{
+                                    position: 'relative',
+                                    // Aspect Ratio 4:3 for taller view
+                                    width: '100%',
+                                    aspectRatio: isFullscreen ? 'auto' : '4/3',
+                                    height: isFullscreen ? '100vh' : 'auto',
                                     background: '#1e1e1e',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    gap: '16px'
+                                    borderRadius: isFullscreen ? '0' : '16px',
+                                    overflow: 'hidden',
+                                    // Fix border shorthand mix
+                                    borderWidth: isFullscreen ? '0' : '2px',
+                                    borderStyle: 'solid',
+                                    borderColor: '#22c55e',
+                                    boxShadow: isFullscreen ? 'none' : '0 20px 40px -10px rgba(0,0,0,0.5)'
                                 }}>
-                                    <p style={{ color: '#ef4444', fontWeight: 600 }}>{loadError}</p>
+
+                                {/* Loading Overlay */}
+                                {(!projectLoaded && !loadError) && (
+                                    <div style={{
+                                        position: 'absolute',
+                                        zIndex: 10,
+                                        inset: 0,
+                                        background: '#1e1e1e', // Solid background to hide cached state
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                    }}>
+                                        <div className="spinner" style={{ width: '40px', height: '40px', marginBottom: '16px' }} />
+                                        <p style={{ color: 'white', fontWeight: 600 }}>Loading Game...</p>
+                                        <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}>This may take a moment...</p>
+                                    </div>
+                                )}
+
+                                {/* Error Overlay */}
+                                {loadError && (
+                                    <div style={{
+                                        position: 'absolute',
+                                        zIndex: 10,
+                                        inset: 0,
+                                        background: '#1e1e1e',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        gap: '16px'
+                                    }}>
+                                        <p style={{ color: '#ef4444', fontWeight: 600 }}>{loadError}</p>
+                                        <button
+                                            onClick={reloadIframe}
+                                            className="btn"
+                                            style={{ padding: '8px 16px', fontSize: '14px' }}
+                                        >
+                                            Try Again
+                                        </button>
+                                    </div>
+                                )}
+
+                                <iframe
+                                    key={projectId}
+                                    ref={iframeRef}
+                                    onLoad={handleIframeLoad}
+                                    src={iframeUrl}
+                                    style={{ width: '100%', height: '100%', border: 'none' }}
+                                    title="MakeCode Arcade"
+                                    sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-downloads"
+                                    allow="clipboard-read; clipboard-write; camera; microphone; gamepad; autoplay *; usb; serial"
+                                    allowFullScreen={true}
+                                />
+
+                                {/* Internal Exit Fullscreen Button (Visible only in Fullscreen) */}
+                                {isFullscreen && (
                                     <button
-                                        onClick={reloadIframe}
-                                        className="btn"
-                                        style={{ padding: '8px 16px', fontSize: '14px' }}
+                                        onClick={toggleFullscreen}
+                                        style={{
+                                            position: 'absolute',
+                                            top: '20px',
+                                            right: '25px',
+                                            zIndex: 100, // Ensure it's on top of standard z-index
+                                            background: 'white',
+                                            color: '#0f172a',
+                                            border: 'none',
+                                            borderRadius: '8px',
+                                            padding: '10px 20px',
+                                            fontWeight: '700',
+                                            cursor: 'pointer',
+                                            boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '8px'
+                                        }}
                                     >
-                                        Try Again
+                                        <span>✕</span> Exit Fullscreen
                                     </button>
-                                </div>
-                            )}
+                                )}
+                            </div>
 
-                            <iframe
-                                key={projectId}
-                                ref={iframeRef}
-                                onLoad={handleIframeLoad}
-                                src={iframeUrl}
-                                style={{ width: '100%', height: '100%', border: 'none' }}
-                                title="MakeCode Arcade"
-                                sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-downloads"
-                                allow="clipboard-read; clipboard-write; camera; microphone; gamepad; autoplay *; usb; serial"
-                                allowFullScreen={true}
-                            />
-
-                            {/* Internal Exit Fullscreen Button (Visible only in Fullscreen) */}
-                            {isFullscreen && (
+                            {/* External Fullscreen Button */}
+                            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '12px', position: 'relative', zIndex: 5 }}>
                                 <button
                                     onClick={toggleFullscreen}
+                                    className="btn"
                                     style={{
-                                        position: 'absolute',
-                                        top: '20px',
-                                        right: '25px',
-                                        zIndex: 100, // Ensure it's on top of standard z-index
-                                        background: 'white',
-                                        color: '#0f172a',
-                                        border: 'none',
-                                        borderRadius: '8px',
                                         padding: '10px 20px',
-                                        fontWeight: '700',
+                                        fontSize: '1rem',
+                                        background: '#ffffff', // White
+                                        color: '#0f172a', // Dark text
+                                        border: '1px solid #e2e8f0',
+                                        borderRadius: '12px',
                                         cursor: 'pointer',
-                                        boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
                                         display: 'flex',
                                         alignItems: 'center',
-                                        gap: '8px'
+                                        gap: '8px',
+                                        transition: 'all 0.2s ease',
+                                        boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+                                        fontWeight: 600
                                     }}
                                 >
-                                    <span>✕</span> Exit Fullscreen
+                                    <span style={{ fontSize: '18px' }}>⛶</span>
+                                    <span>Fullscreen</span>
                                 </button>
-                            )}
+                            </div>
                         </div>
-
-                        {/* External Fullscreen Button */}
-                        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '12px', position: 'relative', zIndex: 5 }}>
-                            <button
-                                onClick={toggleFullscreen}
-                                className="btn"
-                                style={{
-                                    padding: '10px 20px',
-                                    fontSize: '1rem',
-                                    background: '#ffffff', // White
-                                    color: '#0f172a', // Dark text
-                                    border: '1px solid #e2e8f0',
-                                    borderRadius: '12px',
-                                    cursor: 'pointer',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '8px',
-                                    transition: 'all 0.2s ease',
-                                    boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
-                                    fontWeight: 600
-                                }}
-                            >
-                                <span style={{ fontSize: '18px' }}>⛶</span>
-                                <span>Fullscreen</span>
-                            </button>
-                        </div>
-                    </div>
+                    </AnimateOnScroll>
                 )}
 
                 {/* Mobile Notice */}
                 {project.status === 'ready' && isMobile && (
-                    <div style={{
-                        background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-                        borderRadius: '16px',
-                        padding: '24px',
-                        marginBottom: '24px',
-                        textAlign: 'center'
-                    }}>
-                        <h3 style={{ color: '#fff' }}>Visit on Desktop to Play</h3>
-                    </div>
+                    <AnimateOnScroll delay={200}>
+                        <div style={{
+                            background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                            borderRadius: '16px',
+                            padding: '24px',
+                            marginBottom: '24px',
+                            textAlign: 'center'
+                        }}>
+                            <h3 style={{ color: '#fff' }}>Visit on Desktop to Play</h3>
+                        </div>
+                    </AnimateOnScroll>
                 )}
             </div>
 

@@ -24,40 +24,72 @@ export default async function DojoInfoPage() {
     const supabase = await createClient()
 
     // Get current user's dojo and role
-    const { data: { user } } = await supabase.auth.getUser()
-    const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('assigned_dojo, role, full_name')
-        .eq('id', user?.id)
-        .single()
+    const { data: userData } = await supabase.auth.getUser()
+    const user = userData?.user
 
-    if (profileError) {
-        console.error('[INFO_PAGE] Profile fetch error:', profileError.message, profileError.code, 'User ID:', user?.id)
+    // 1. Fetch Profile
+    let profile = null
+    try {
+        const { data, error: profileError } = await supabase
+            .from('profiles')
+            .select('assigned_dojo, role, full_name')
+            .eq('id', user?.id)
+            .single()
+
+        if (profileError) {
+            console.error('[INFO_PAGE] Profile fetch error:', profileError.message, profileError.code)
+        } else {
+            profile = data
+        }
+    } catch (err) {
+        console.error('[INFO_PAGE] Profile query crashed:', err)
     }
 
-    const userDojo = profile?.assigned_dojo
-    const userRole = profile?.role
-    const userName = profile?.full_name
+    const userDojo = profile?.assigned_dojo || user?.user_metadata?.assigned_dojo
+    const userRole = profile?.role || user?.user_metadata?.role || 'parent'
+    const userName = profile?.full_name || user?.user_metadata?.full_name || user?.email?.split('@')[0]
 
-    // Fetch linked students for parents
-    const { data: linkedStudents } = await supabase
-        .from('students')
-        .select('id, name, belt_color')
-        .eq('parent_id', user?.id)
+    // 2. Fetch linked students for parents
+    let linkedStudents = []
+    try {
+        if (userRole === 'parent') {
+            const { data, error: studentError } = await supabase
+                .from('students')
+                .select('id, name, belt_color')
+                .eq('parent_id', user?.id)
 
-    // Fetch all news for client-side filtering
-    const { data: allNews } = await supabase
-        .from('news')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(20)
+            if (studentError) {
+                console.error('[INFO_PAGE] Students fetch error:', studentError.message)
+            } else {
+                linkedStudents = data || []
+            }
+        }
+    } catch (err) {
+        console.error('[INFO_PAGE] Students query crashed:', err)
+    }
 
-    const news = allNews?.filter(item => {
-        if (userRole === 'franchise_owner') return true
-        if (!item.target_dojo || item.target_dojo === 'Global') return true
-        if (userDojo && item.target_dojo === userDojo) return true
-        return false
-    })
+    // 3. Fetch all news
+    let news = []
+    try {
+        const { data: allNews, error: newsError } = await supabase
+            .from('news')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .limit(20)
+
+        if (newsError) {
+            console.error('[INFO_PAGE] News fetch error:', newsError.message)
+        } else {
+            news = (allNews || []).filter(item => {
+                if (userRole === 'franchise_owner') return true
+                if (!item.target_dojo || item.target_dojo === 'Global') return true
+                if (userDojo && item.target_dojo === userDojo) return true
+                return false
+            })
+        }
+    } catch (err) {
+        console.error('[INFO_PAGE] News query crashed:', err)
+    }
 
 
     const dojos: Record<string, { address: string, city: string, zip: string, phone: string, hours: string, mapUrl: string }> = {

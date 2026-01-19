@@ -1,11 +1,37 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback, memo } from 'react'
 import { LucideTrophy, LucideLayoutDashboard, LucideUsers, LucideChevronDown, LucideMapPin, LucidePhone, LucideQuote } from 'lucide-react'
 
-// Scroll-triggered animation component
-function AnimateOnScroll({
+// Optimized scroll-triggered animation component
+// Uses a single shared observer for performance
+const observerMap = new WeakMap<Element, boolean>()
+let sharedObserver: IntersectionObserver | null = null
+
+function getSharedObserver() {
+    if (typeof window === 'undefined') return null
+    if (!sharedObserver) {
+        sharedObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting && !observerMap.get(entry.target)) {
+                        // Only animate in once, never animate out (performance optimization)
+                        entry.target.classList.add('animate-visible')
+                        entry.target.classList.remove('animate-hidden')
+                        observerMap.set(entry.target, true)
+                        // Unobserve after animation completes to free resources
+                        sharedObserver?.unobserve(entry.target)
+                    }
+                })
+            },
+            { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+        )
+    }
+    return sharedObserver
+}
+
+const AnimateOnScroll = memo(function AnimateOnScroll({
     children,
     className = '',
     delay = 0
@@ -20,24 +46,17 @@ function AnimateOnScroll({
         const element = ref.current
         if (!element) return
 
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-visible')
-                        entry.target.classList.remove('animate-hidden')
-                    } else {
-                        entry.target.classList.add('animate-hidden')
-                        entry.target.classList.remove('animate-visible')
-                    }
-                })
-            },
-            { threshold: 0.1, rootMargin: '0px 0px -20px 0px' }
-        )
+        const observer = getSharedObserver()
+        if (observer) {
+            observer.observe(element)
+        }
 
-        observer.observe(element)
-        return () => observer.disconnect()
-    }, [delay])
+        return () => {
+            if (observer && element) {
+                observer.unobserve(element)
+            }
+        }
+    }, [])
 
     return (
         <div
@@ -48,12 +67,14 @@ function AnimateOnScroll({
             {children}
         </div>
     )
-}
+})
 
 export default function LandingPageClient() {
     const [scrollOpacity, setScrollOpacity] = useState(1)
+    const rafRef = useRef<number | null>(null)
+    const lastScrollY = useRef(0)
 
-    // Handle scroll-based fades and prevent scroll restoration
+    // Throttled scroll handler using requestAnimationFrame
     useEffect(() => {
         if ('scrollRestoration' in window.history) {
             window.history.scrollRestoration = 'manual'
@@ -61,14 +82,29 @@ export default function LandingPageClient() {
         window.scrollTo(0, 0)
 
         const handleScroll = () => {
-            const currentScrollY = window.scrollY
-            // Fade out the scroll indicator over the first 100px of scroll
-            const newOpacity = Math.max(0, 1 - currentScrollY / 100)
-            setScrollOpacity(newOpacity)
+            // Cancel any pending animation frame
+            if (rafRef.current) {
+                cancelAnimationFrame(rafRef.current)
+            }
+
+            rafRef.current = requestAnimationFrame(() => {
+                const currentScrollY = window.scrollY
+                // Only update state if scroll position changed significantly
+                if (Math.abs(currentScrollY - lastScrollY.current) > 5) {
+                    lastScrollY.current = currentScrollY
+                    const newOpacity = Math.max(0, 1 - currentScrollY / 100)
+                    setScrollOpacity(newOpacity)
+                }
+            })
         }
 
         window.addEventListener('scroll', handleScroll, { passive: true })
-        return () => window.removeEventListener('scroll', handleScroll)
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+            if (rafRef.current) {
+                cancelAnimationFrame(rafRef.current)
+            }
+        }
     }, [])
 
     return (
@@ -125,20 +161,18 @@ export default function LandingPageClient() {
                     </AnimateOnScroll>
 
                     {/* Scroll indicator */}
-                    <AnimateOnScroll delay={1200}>
-                        <div
-                            className="pt-12 transition-opacity duration-300"
-                            style={{
-                                opacity: scrollOpacity,
-                                pointerEvents: scrollOpacity === 0 ? 'none' : 'auto'
-                            }}
-                        >
-                            <a href="#features" className="inline-flex flex-col items-center gap-2 text-white/60 hover:text-white transition-colors group">
-                                <span className="text-xs font-semibold uppercase tracking-widest">Scroll to learn more</span>
-                                <LucideChevronDown className="h-5 w-5 animate-bounce" />
-                            </a>
-                        </div>
-                    </AnimateOnScroll>
+                    <div
+                        className="pt-12 transition-opacity duration-300"
+                        style={{
+                            opacity: scrollOpacity,
+                            pointerEvents: scrollOpacity === 0 ? 'none' : 'auto'
+                        }}
+                    >
+                        <a href="#features" className="inline-flex flex-col items-center gap-2 text-white/60 hover:text-white transition-colors group">
+                            <span className="text-xs font-semibold uppercase tracking-widest">Scroll to learn more</span>
+                            <LucideChevronDown className="h-5 w-5 animate-bounce" />
+                        </a>
+                    </div>
                 </div>
             </div>
 

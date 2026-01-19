@@ -15,6 +15,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Code Ninjas FL Dojo Hub",
   description: "Official Dojo Hub for Code Ninjas FL centers (Cooper City, Weston, Aventura) — session reports, news, gallery and more.",
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({

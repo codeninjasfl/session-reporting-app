@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -11,6 +11,15 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+// Force desktop mode on mobile by setting a minimum width
+export const viewport: Viewport = {
+  width: 1024,
+  initialScale: 0.5,
+  minimumScale: 0.25,
+  maximumScale: 2,
+  userScalable: true,
+};
 
 export const metadata: Metadata = {
   title: "Code Ninjas FL Dojo Hub",

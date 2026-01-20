@@ -1,10 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { useActionState, useState } from 'react'
+import { useActionState, useState, useEffect } from 'react'
 import { signup } from './actions'
 import { LucidePlus, LucideMinus, LucideUsers } from 'lucide-react'
 import ChildNameInput from '@/components/ChildNameInput'
+import AuthLoadingOverlay from '@/components/AuthLoadingOverlay'
 
 const initialState = {
     error: '',
@@ -14,6 +15,16 @@ export default function SignupPage() {
     const [state, formAction, isPending] = useActionState(signup, initialState)
     const [childCount, setChildCount] = useState(1)
     const [location, setLocation] = useState('')
+    const [showLoading, setShowLoading] = useState(false)
+
+    // Show loading when form submits, hide if there's an error
+    useEffect(() => {
+        if (isPending) {
+            setShowLoading(true)
+        } else if (state?.error) {
+            setShowLoading(false)
+        }
+    }, [isPending, state?.error])
 
     const addChild = () => {
         if (childCount < 5) setChildCount(c => c + 1)
@@ -24,190 +35,195 @@ export default function SignupPage() {
     }
 
     return (
-        <div className="flex min-h-screen flex-col items-center justify-center px-4 py-8 sm:px-6 lg:px-8 animate-in fade-in" style={{ background: 'linear-gradient(180deg, var(--bg1), var(--bg2))' }}>
-            <div className="w-full max-w-md animate-in slide-in-up delay-100">
-                {/* Logo outside card */}
-                <div className="text-center mb-6">
-                    <Link href="/">
-                        <img
-                            src="https://www.codeninjas.com/hubfs/Group%201.svg"
-                            alt="Code Ninjas"
-                            className="h-10 sm:h-14 w-auto mx-auto hover:scale-105 transition-transform"
-                        />
-                    </Link>
-                </div>
+        <>
+            <AuthLoadingOverlay isVisible={showLoading} type="signup" />
 
-                {/* White Card */}
-                <div className="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 space-y-6">
-                    <div className="text-center">
-                        <h2 className="text-xl sm:text-2xl font-extrabold text-gray-900 uppercase tracking-tight animate-in slide-in-up delay-150">
-                            Create Parent Account
-                        </h2>
-                        <p className="mt-2 text-sm text-gray-500 animate-in slide-in-up delay-200">
-                            Join to track your ninja's progress
-                        </p>
+            <div className="flex min-h-screen flex-col items-center justify-center px-4 py-8 sm:px-6 lg:px-8 animate-in fade-in" style={{ background: 'linear-gradient(180deg, var(--bg1), var(--bg2))' }}>
+                <div className="w-full max-w-md animate-in slide-in-up delay-100">
+                    {/* Logo outside card */}
+                    <div className="text-center mb-6">
+                        <Link href="/">
+                            <img
+                                src="https://www.codeninjas.com/hubfs/Group%201.svg"
+                                alt="Code Ninjas"
+                                className="h-10 sm:h-14 w-auto mx-auto hover:scale-105 transition-transform"
+                            />
+                        </Link>
                     </div>
 
-                    <form action={formAction} className="space-y-5 animate-in slide-in-up delay-300">
-                        <div className="space-y-4">
-                            <div>
-                                <label htmlFor="fullName" className="block text-sm font-semibold leading-6 text-gray-700">
-                                    Parent Full Name
-                                </label>
-                                <div className="mt-1">
-                                    <input
-                                        id="fullName"
-                                        name="fullName"
-                                        type="text"
-                                        required
-                                        className="block w-full rounded-xl border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[var(--brand)] text-sm"
-                                        placeholder="John Doe"
-                                    />
-                                </div>
-                            </div>
-
-                            <div>
-                                <label htmlFor="email" className="block text-sm font-semibold leading-6 text-gray-700">
-                                    Email address
-                                </label>
-                                <div className="mt-1">
-                                    <input
-                                        id="email"
-                                        name="email"
-                                        type="email"
-                                        autoComplete="email"
-                                        required
-                                        className="block w-full rounded-xl border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[var(--brand)] text-sm"
-                                        placeholder="name@example.com"
-                                    />
-                                </div>
-                            </div>
-
-                            <div>
-                                <label htmlFor="password" className="block text-sm font-semibold leading-6 text-gray-700">
-                                    Password
-                                </label>
-                                <div className="mt-1">
-                                    <input
-                                        id="password"
-                                        name="password"
-                                        type="password"
-                                        autoComplete="new-password"
-                                        required
-                                        className="block w-full rounded-xl border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[var(--brand)] text-sm"
-                                        placeholder="••••••••"
-                                    />
-                                </div>
-                            </div>
-
-                            <div>
-                                <label htmlFor="location" className="block text-sm font-semibold leading-6 text-gray-700">
-                                    Dojo Location
-                                </label>
-                                <div className="mt-1">
-                                    <select
-                                        id="location"
-                                        name="location"
-                                        required
-                                        value={location}
-                                        onChange={(e) => setLocation(e.target.value)}
-                                        className="block w-full rounded-xl border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-[var(--brand)] text-sm bg-white"
-                                    >
-                                        <option value="">Select your dojo...</option>
-                                        <option value="Cooper City">Cooper City</option>
-                                        <option value="Weston">Weston</option>
-                                        <option value="Aventura">Aventura</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            {/* Children Section */}
-                            <div className="pt-4 border-t border-gray-200">
-                                <div className="flex items-center justify-between mb-3">
-                                    <div className="flex items-center gap-2">
-                                        <LucideUsers className="h-5 w-5 text-[var(--brand)]" />
-                                        <label className="block text-sm font-semibold leading-6 text-gray-700">
-                                            Your Children ({childCount})
-                                        </label>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <button
-                                            type="button"
-                                            onClick={removeChild}
-                                            disabled={childCount <= 1}
-                                            className="p-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                                        >
-                                            <LucideMinus className="h-4 w-4 text-gray-600" />
-                                        </button>
-                                        <span className="w-6 text-center font-bold text-gray-700">{childCount}</span>
-                                        <button
-                                            type="button"
-                                            onClick={addChild}
-                                            disabled={childCount >= 5}
-                                            className="p-1.5 rounded-lg bg-[var(--brand)] hover:bg-blue-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                                        >
-                                            <LucidePlus className="h-4 w-4 text-white" />
-                                        </button>
-                                    </div>
-                                </div>
-
-                                {/* Hidden field to pass child count */}
-                                <input type="hidden" name="childCount" value={childCount} />
-
-                                <div className="space-y-3">
-                                    {Array.from({ length: childCount }, (_, i) => (
-                                        <ChildNameInput key={i} index={i} location={location} />
-                                    ))}
-                                </div>
-                                <p className="mt-2 text-xs text-gray-500">
-                                    Start typing to search for existing ninjas, or enter a new name.
-                                </p>
-                            </div>
-                        </div>
-
-                        {state?.error && (
-                            <div className="rounded-xl bg-red-50 p-4 border border-red-200">
-                                <div className="text-sm text-red-700">{state.error}</div>
-                            </div>
-                        )}
-
-                        {/* Terms Checkbox */}
-                        <div className="flex items-start">
-                            <div className="flex items-center h-5">
-                                <input
-                                    id="terms"
-                                    name="terms"
-                                    type="checkbox"
-                                    required
-                                    className="h-4 w-4 rounded border-gray-300 text-[var(--brand)] focus:ring-[var(--brand)]"
-                                />
-                            </div>
-                            <div className="ml-3 text-sm">
-                                <label htmlFor="terms" className="text-gray-500">
-                                    I agree to the <Link href="/terms" className="font-semibold text-[var(--brand)] hover:text-blue-700" target="_blank">Terms of Service</Link> and <Link href="/privacy" className="font-semibold text-[var(--brand)] hover:text-blue-700" target="_blank">Privacy Policy</Link>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div>
-                            <button
-                                type="submit"
-                                disabled={isPending}
-                                className="flex w-full justify-center px-5 py-3.5 rounded-xl bg-[var(--brand)] text-white font-bold text-base shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                {isPending ? 'Creating Account...' : 'Start Tracking'}
-                            </button>
-
-                            <p className="mt-4 text-center text-sm text-gray-500">
-                                Already have an account?{' '}
-                                <Link href="/login" className="font-semibold leading-6 text-[var(--brand)] hover:text-blue-700">
-                                    Sign in here
-                                </Link>
+                    {/* White Card */}
+                    <div className="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 space-y-6">
+                        <div className="text-center">
+                            <h2 className="text-xl sm:text-2xl font-extrabold text-gray-900 uppercase tracking-tight animate-in slide-in-up delay-150">
+                                Create Parent Account
+                            </h2>
+                            <p className="mt-2 text-sm text-gray-500 animate-in slide-in-up delay-200">
+                                Join to track your ninja's progress
                             </p>
                         </div>
-                    </form>
+
+                        <form action={formAction} className="space-y-5 animate-in slide-in-up delay-300">
+                            <div className="space-y-4">
+                                <div>
+                                    <label htmlFor="fullName" className="block text-sm font-semibold leading-6 text-gray-700">
+                                        Parent Full Name
+                                    </label>
+                                    <div className="mt-1">
+                                        <input
+                                            id="fullName"
+                                            name="fullName"
+                                            type="text"
+                                            required
+                                            className="block w-full rounded-xl border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[var(--brand)] text-sm"
+                                            placeholder="John Doe"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label htmlFor="email" className="block text-sm font-semibold leading-6 text-gray-700">
+                                        Email address
+                                    </label>
+                                    <div className="mt-1">
+                                        <input
+                                            id="email"
+                                            name="email"
+                                            type="email"
+                                            autoComplete="email"
+                                            required
+                                            className="block w-full rounded-xl border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[var(--brand)] text-sm"
+                                            placeholder="name@example.com"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label htmlFor="password" className="block text-sm font-semibold leading-6 text-gray-700">
+                                        Password
+                                    </label>
+                                    <div className="mt-1">
+                                        <input
+                                            id="password"
+                                            name="password"
+                                            type="password"
+                                            autoComplete="new-password"
+                                            required
+                                            className="block w-full rounded-xl border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[var(--brand)] text-sm"
+                                            placeholder="••••••••"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label htmlFor="location" className="block text-sm font-semibold leading-6 text-gray-700">
+                                        Dojo Location
+                                    </label>
+                                    <div className="mt-1">
+                                        <select
+                                            id="location"
+                                            name="location"
+                                            required
+                                            value={location}
+                                            onChange={(e) => setLocation(e.target.value)}
+                                            className="block w-full rounded-xl border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-[var(--brand)] text-sm bg-white"
+                                        >
+                                            <option value="">Select your dojo...</option>
+                                            <option value="Cooper City">Cooper City</option>
+                                            <option value="Weston">Weston</option>
+                                            <option value="Aventura">Aventura</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                {/* Children Section */}
+                                <div className="pt-4 border-t border-gray-200">
+                                    <div className="flex items-center justify-between mb-3">
+                                        <div className="flex items-center gap-2">
+                                            <LucideUsers className="h-5 w-5 text-[var(--brand)]" />
+                                            <label className="block text-sm font-semibold leading-6 text-gray-700">
+                                                Your Children ({childCount})
+                                            </label>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <button
+                                                type="button"
+                                                onClick={removeChild}
+                                                disabled={childCount <= 1}
+                                                className="p-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                                            >
+                                                <LucideMinus className="h-4 w-4 text-gray-600" />
+                                            </button>
+                                            <span className="w-6 text-center font-bold text-gray-700">{childCount}</span>
+                                            <button
+                                                type="button"
+                                                onClick={addChild}
+                                                disabled={childCount >= 5}
+                                                className="p-1.5 rounded-lg bg-[var(--brand)] hover:bg-blue-600 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                                            >
+                                                <LucidePlus className="h-4 w-4 text-white" />
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    {/* Hidden field to pass child count */}
+                                    <input type="hidden" name="childCount" value={childCount} />
+
+                                    <div className="space-y-3">
+                                        {Array.from({ length: childCount }, (_, i) => (
+                                            <ChildNameInput key={i} index={i} location={location} />
+                                        ))}
+                                    </div>
+                                    <p className="mt-2 text-xs text-gray-500">
+                                        Start typing to search for existing ninjas, or enter a new name.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {state?.error && (
+                                <div className="rounded-xl bg-red-50 p-4 border border-red-200">
+                                    <div className="text-sm text-red-700">{state.error}</div>
+                                </div>
+                            )}
+
+                            {/* Terms Checkbox */}
+                            <div className="flex items-start">
+                                <div className="flex items-center h-5">
+                                    <input
+                                        id="terms"
+                                        name="terms"
+                                        type="checkbox"
+                                        required
+                                        className="h-4 w-4 rounded border-gray-300 text-[var(--brand)] focus:ring-[var(--brand)]"
+                                    />
+                                </div>
+                                <div className="ml-3 text-sm">
+                                    <label htmlFor="terms" className="text-gray-500">
+                                        I agree to the <Link href="/terms" className="font-semibold text-[var(--brand)] hover:text-blue-700" target="_blank">Terms of Service</Link> and <Link href="/privacy" className="font-semibold text-[var(--brand)] hover:text-blue-700" target="_blank">Privacy Policy</Link>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <button
+                                    type="submit"
+                                    disabled={isPending}
+                                    className="flex w-full justify-center px-5 py-3.5 rounded-xl bg-[var(--brand)] text-white font-bold text-base shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {isPending ? 'Creating Account...' : 'Start Tracking'}
+                                </button>
+
+                                <p className="mt-4 text-center text-sm text-gray-500">
+                                    Already have an account?{' '}
+                                    <Link href="/login" className="font-semibold leading-6 text-[var(--brand)] hover:text-blue-700">
+                                        Sign in here
+                                    </Link>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
+

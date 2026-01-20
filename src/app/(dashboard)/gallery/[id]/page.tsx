@@ -422,10 +422,28 @@ export default function ProjectDetailPage() {
                                 flexDirection: 'column',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                gap: '16px'
+                                gap: '16px',
+                                padding: '24px',
+                                textAlign: 'center'
                             }}>
-                                <p style={{ color: '#ef4444', fontWeight: 600 }}>{loadError}</p>
-                                <button onClick={reloadIframe} className="btn">
+                                <div style={{ fontSize: '48px' }}>🎮</div>
+                                <p style={{ color: '#ef4444', fontWeight: 600, fontSize: '18px' }}>{loadError}</p>
+                                <div style={{
+                                    background: 'rgba(251, 191, 36, 0.1)',
+                                    border: '1px solid rgba(251, 191, 36, 0.3)',
+                                    borderRadius: '12px',
+                                    padding: '16px',
+                                    maxWidth: '400px'
+                                }}>
+                                    <p style={{ color: '#fbbf24', fontWeight: 600, marginBottom: '8px' }}>
+                                        ⚠️ Having trouble loading?
+                                    </p>
+                                    <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '14px', lineHeight: '1.5' }}>
+                                        Ad blockers and privacy extensions can sometimes block game content.
+                                        Try <strong style={{ color: '#fbbf24' }}>disabling your ad blocker</strong> for this site and refresh the page.
+                                    </p>
+                                </div>
+                                <button onClick={reloadIframe} className="btn" style={{ marginTop: '8px' }}>
                                     Try Again
                                 </button>
                             </div>
